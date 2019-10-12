@@ -15,6 +15,16 @@ func _ready():
 	button.rect_position = Vector2(478,290)
 	button.rect_size = Vector2(68,20)
 	button.connect("button_up",self,"loadbutton")
+	var button2 = Button.new()
+	add_child(button2)
+	button2.text = "Open output folder"
+	button2.anchor_bottom = 0.5
+	button2.anchor_top = 0.5
+	button2.anchor_left = 0.5
+	button2.anchor_right = 0.5
+	button2.rect_position = Vector2(478,320)
+	button2.rect_size = Vector2(68,20)
+	button2.connect("button_up",self,"output_button")
 	filedi = FileDialog.new()
 	add_child(filedi)
 	filedi.anchor_bottom = 0.5
@@ -29,6 +39,8 @@ func _ready():
 	filedi.connect("file_selected",self,"_on_FileDialog_file_selected")
 func loadbutton():
 	filedi.popup_centered()
+func output_button():
+	OS.shell_open(OS.get_user_data_dir())
 func _on_FileDialog_file_selected(path):
 	ProjectSettings.load_resource_pack(path)
 	while dirs.size() != 0:
@@ -37,6 +49,7 @@ func _on_FileDialog_file_selected(path):
 		dirs.remove(0)
 	OS.shell_open(OS.get_user_data_dir())
 	filedi.hide()
+	dirs = ["res://"]
 func extract(path):
 	var formpath = path
 	formpath.erase(0,3)
